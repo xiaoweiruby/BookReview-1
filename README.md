@@ -218,3 +218,25 @@ app/models/book.rb
 ```
 belongs_to :user
 ```
+# 构架一个分类的功能
+
+10324  git checkout -b Gategory
+10325  rails g model Gategory name:string
+10326  rake db:migrate
+10327  rails g migration add_category_id_to_books category_id:integer
+10328  rake db:migrate
+10329  rails d model Gategory name:string
+10330  rails g model Category name:string
+10331  rake db:migrate
+10332  rails s
+10333  rails c
+10334  rails s
+
+# 添加分类的数据结构
+rails c
+Category.connection
+Category.create(name: "Fantasy")
+Category.create(name: "Fechnology")
+Category.create(name: "Biography")
+Category.all
+exit
