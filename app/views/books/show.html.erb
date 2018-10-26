@@ -1,0 +1,21 @@
+
+
+
+			<h2 class="book-title"><%= @book.title %></h2>
+			<h3 class="book-author"><span>From</span> <%= @book.author %></h3>
+
+			<p class="book-desc"><%= @book.description %></p>
+
+
+
+
+
+<div class="links btn-group">
+
+	<%= link_to "Back", root_path, class: "btn btn-custom" %>
+
+			<%= link_to "Edit", edit_book_path(@book), class: "btn btn-custom" %>
+			<%= link_to "Delete", book_path(@book), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-custom" %>
+
+
+</div>
