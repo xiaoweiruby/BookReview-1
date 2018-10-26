@@ -28,6 +28,7 @@ rails g model Book title:string description:text author:string
 rake db:migrate
 rails g controller Books
 ```
+```
 class BooksController < ApplicationController
 	before_action :find_book, only: [:show, :edit, :update, :destroy]
 
@@ -86,7 +87,7 @@ class BooksController < ApplicationController
 end
 
 ```
-touch app/views/books/_form.html.erb
+touch app/views/books/-form.html.erb
 ```
 <%= simple_form_for @book, :html => { :multipart => true } do |f| %>
 
@@ -169,4 +170,51 @@ touch app/views/books/show.html.erb
 
 </div>
 
+```
+# 添加用户的结构
+git checkout -b devise
+rails generate devise:install
+rails g devise:views
+rails g devise User
+rake db:migrate
+rails s
+rails g migration add_user_id_to_books user_id:integer
+rake db:migrate
+
+# 查看用户数据的方式
+```
+rails c
+2.3.1 :002 > Book.connection
+2.3.1 :003 > Book
+2.3.1 :004 > @book = Book.last
+2.3.1 :007 > @book.user_id = 1
+2.3.1 :008 > @book.save
+2.3.1 :009 > @book = Book.find(2)
+2.3.1 :010 > @book.user_id = 1
+2.3.1 :011 > @book.save
+2.3.1 :012 > exit
+```
+
+app/controllers/books_controller.rb
+```
+	before_action :authenticate_user!, except: [:index, :show]
+  current_user.books.build
+```
+app/views/books/show.html.erb
+```
+<% if user_signed_in? %>
+
+  <% if @book.user_id == current_user.id %>
+  <%= link_to "Edit", edit_book_path(@book), class: "btn btn-custom" %>
+  <%= link_to "Delete", book_path(@book), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-custom" %>
+  <% end %>
+<% end %>
+```
+app/models/user.rb
+```
+has_many :books
+```
+app/models/book.rb
+```
+belongs_to :user
 ```
