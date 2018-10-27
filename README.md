@@ -220,14 +220,12 @@ belongs_to :user
 ```
 # 构架一个分类的功能
 
-10324  git checkout -b Gategory
-10325  rails g model Gategory name:string
+10324  git checkout -b Category
+10330  rails g model Category name:string
 10326  rake db:migrate
 10327  rails g migration add_category_id_to_books category_id:integer
 10328  rake db:migrate
-10329  rails d model Gategory name:string
-10330  rails g model Category name:string
-10331  rake db:migrate
+
 10332  rails s
 10333  rails c
 10334  rails s
@@ -240,3 +238,21 @@ Category.create(name: "Fechnology")
 Category.create(name: "Biography")
 Category.all
 exit
+
+# 添加图片上传功能
+gem 'paperclip', '~> 6.1'
+
+git checkout -b paperclip
+bundle install
+rails g paperclip Book book_img
+rake db:migrate
+
+rails c
+2.3.1 :001 > Category.connection
+2.3.1 :002 > @book = Book.find(11)
+2.3.1 :003 > @book.category_id = 1
+2.3.1 :004 > @book.save
+2.3.1 :005 > @book = Book.find(10)
+2.3.1 :006 > @book.category_id = 1
+2.3.1 :007 > @book.save
+2.3.1 :008 > exit
